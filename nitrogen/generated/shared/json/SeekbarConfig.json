@@ -1,0 +1,18 @@
+{
+  "uiViewClassName": "Seekbar",
+  "supportsRawText": false,
+  "bubblingEventTypes": {},
+  "directEventTypes": {},
+  "validAttributes": {
+    "position": true,
+    "duration": true,
+    "readAheadValue": true,
+    "onValueChange": true,
+    "onValueChangeFinished": true,
+    "onSegmentChange": true,
+    "segments": true,
+    "seekerColors": true,
+    "seekerDimensions": true,
+    "hybridRef": true
+  }
+}
