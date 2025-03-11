@@ -8,27 +8,23 @@ import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
-import com.facebook.react.uimanager.ThemedReactContext
-import dev.vivvvek.seeker.Seeker
-import com.margelo.nitro.seekbar.SeekerColors as NitroSeekerColors
-import com.margelo.nitro.seekbar.SeekerDimensions as NitroSeekerDimensions
-import dev.vivvvek.seeker.SeekerDefaults
-import dev.vivvvek.seeker.Segment
-import com.margelo.nitro.seekbar.Segment as NitroSegment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
-import dev.vivvvek.seeker.SeekerDimensions
+import com.facebook.react.uimanager.ThemedReactContext
+import dev.vivvvek.seeker.Seeker
+import dev.vivvvek.seeker.SeekerDefaults
+import dev.vivvvek.seeker.Segment
 import dev.vivvvek.seeker.rememberSeekerState
+import com.margelo.nitro.seekbar.SeekerColors as NitroSeekerColors
+import com.margelo.nitro.seekbar.SeekerDimensions as NitroSeekerDimensions
+import com.margelo.nitro.seekbar.Segment as NitroSegment
 
 @SuppressLint("ViewConstructor")
 class SeekbarView(context: ThemedReactContext) : FrameLayout(context) {
@@ -52,35 +48,35 @@ class SeekbarView(context: ThemedReactContext) : FrameLayout(context) {
         val defaultDimensions = SeekerDefaults.seekerDimensions()
 
         // Create a new SeekerDimensions instance that overrides only non-null properties
-        val dimensions = object : SeekerDimensions {
-            @SuppressLint("UnrememberedMutableState")
-            @Composable
-            override fun trackHeight(): State<Dp> {
-                val customTrackHeight = seekerDimensions?.trackHeight?.dp
-                return mutableStateOf(customTrackHeight ?: defaultDimensions.trackHeight().value)
-            }
-
-            @SuppressLint("UnrememberedMutableState")
-            @Composable
-            override fun progressHeight(): State<Dp> {
-                val customProgressHeight = seekerDimensions?.progressHeight?.dp
-                return mutableStateOf(customProgressHeight ?: defaultDimensions.progressHeight().value)
-            }
-
-            @SuppressLint("UnrememberedMutableState")
-            @Composable
-            override fun thumbRadius(): State<Dp> {
-                val customThumbRadius = seekerDimensions?.thumbRadius?.dp
-                return mutableStateOf(customThumbRadius ?: defaultDimensions.thumbRadius().value)
-            }
-
-            @SuppressLint("UnrememberedMutableState")
-            @Composable
-            override fun gap(): State<Dp> {
-                val customGap = seekerDimensions?.gap?.dp
-                return mutableStateOf(customGap ?: defaultDimensions.gap().value)
-            }
-        }
+//        val dimensions = object : SeekerDimensions {
+//            @SuppressLint("UnrememberedMutableState")
+//            @Composable
+//            override fun trackHeight(): State<Dp> {
+//                val customTrackHeight = seekerDimensions?.trackHeight?.dp
+//                return mutableStateOf(customTrackHeight ?: defaultDimensions.trackHeight().value)
+//            }
+//
+//            @SuppressLint("UnrememberedMutableState")
+//            @Composable
+//            override fun progressHeight(): State<Dp> {
+//                val customProgressHeight = seekerDimensions?.progressHeight?.dp
+//                return mutableStateOf(customProgressHeight ?: defaultDimensions.progressHeight().value)
+//            }
+//
+//            @SuppressLint("UnrememberedMutableState")
+//            @Composable
+//            override fun thumbRadius(): State<Dp> {
+//                val customThumbRadius = seekerDimensions?.thumbRadius?.dp
+//                return mutableStateOf(customThumbRadius ?: defaultDimensions.thumbRadius().value)
+//            }
+//
+//            @SuppressLint("UnrememberedMutableState")
+//            @Composable
+//            override fun gap(): State<Dp> {
+//                val customGap = seekerDimensions?.gap?.dp
+//                return mutableStateOf(customGap ?: defaultDimensions.gap().value)
+//            }
+//        }
 
         val state = rememberSeekerState()
 
@@ -93,7 +89,11 @@ class SeekbarView(context: ThemedReactContext) : FrameLayout(context) {
         LaunchedEffect(state.currentSegment) {
             onSegmentChange(state.currentSegment.let { segment ->
                 segment.let { segment ->
-                    NitroSegment(segment.name, segment.start.toDouble(), segment.color.toArgb().toHexString())
+                    NitroSegment(
+                        segment.name,
+                        segment.start.toDouble(),
+                        segment.color.toArgb().toHexString()
+                    )
                 }
             })
         }
@@ -119,7 +119,7 @@ class SeekbarView(context: ThemedReactContext) : FrameLayout(context) {
 //            modifier = Modifier.padding(horizontal = 16.dp),
             dimensions = SeekerDefaults.seekerDimensions(gap = gap, thumbRadius = thumbRadius),
 //            dimensions = dimensions,
-            // For seekers, we set our own default colors
+            // For seekers color, we set our own default colors
             colors = SeekerDefaults.seekerColors(
                 progressColor = seekerColors?.progressColor?.let { color ->
                     Color(color.toColorInt())

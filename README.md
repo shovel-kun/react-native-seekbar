@@ -1,4 +1,4 @@
-# react-native-vlc
+# react-native-seekbar
 
 ## Requirements
 
@@ -11,7 +11,7 @@
 ## Installation
 
 ```bash
-bun add react-native-vlc react-native-nitro-modules
+bun add react-native-seekbar react-native-nitro-modules
 ```
 
 ## Credits

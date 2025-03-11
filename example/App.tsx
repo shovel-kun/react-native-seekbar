@@ -1,7 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, Button} from 'react-native';
-import {Seekbar, SeekbarRef} from 'react-native-seekbar';
-import {Segment} from '../src/specs/seekbar.nitro';
+import {Segment, Seekbar, SeekbarRef} from 'react-native-seekbar';
 
 function App(): React.JSX.Element {
   const [position, setPosition] = React.useState(0);
@@ -12,8 +11,7 @@ function App(): React.JSX.Element {
 
   const onValueChange = React.useCallback(
     (value: number) => {
-      // setPosition(value);
-      console.log(value);
+      setPosition(value);
       if (sliderRef.current) {
         sliderRef.current.position = value;
       }
@@ -52,6 +50,9 @@ function App(): React.JSX.Element {
           clearInterval(interval);
           setIsPlaying(false);
           return prevPosition;
+        }
+        if (sliderRef.current) {
+          sliderRef.current.position = position + 0.1; // Increment by 0.1 every 100ms
         }
         return prevPosition + 0.1; // Increment by 0.1 every 100ms
       });
