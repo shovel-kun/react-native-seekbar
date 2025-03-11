@@ -305,7 +305,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vlcexample";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.seekbarexample";
 				PRODUCT_NAME = SeekbarExample;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -332,7 +332,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vlcexample";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.seekbarexample";
 				PRODUCT_NAME = SeekbarExample;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

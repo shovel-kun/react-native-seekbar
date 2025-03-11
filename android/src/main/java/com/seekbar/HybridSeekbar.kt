@@ -1,6 +1,5 @@
 package com.seekbar
 
-import android.util.Log
 import androidx.annotation.Keep
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
@@ -14,7 +13,9 @@ import com.margelo.nitro.seekbar.Segment as NitroSegment
 
 @Keep
 @DoNotStrip
-class HybridSeekbar(context: ThemedReactContext) : HybridSeekbarSpec() {
+class HybridSeekbar(
+    context: ThemedReactContext,
+) : HybridSeekbarSpec() {
     // View
     override val view = SeekbarView(context)
 
@@ -24,7 +25,6 @@ class HybridSeekbar(context: ThemedReactContext) : HybridSeekbarSpec() {
     // Props
     override var position: Double? = null
         set(value) {
-            Log.i("VLC", "position: $value")
             if (field == value) return
             field = value
             view.position = value?.toFloat() ?: 0f
@@ -52,7 +52,8 @@ class HybridSeekbar(context: ThemedReactContext) : HybridSeekbarSpec() {
                 Segment(
                     it.name,
                     it.start.toFloat(),
-                    it.color?.let { color -> Color(color.toColorInt()) } ?: Color.Unspecified)
+                    it.color?.let { color -> Color(color.toColorInt()) } ?: Color.Unspecified,
+                )
             } ?: listOf()
         }
 

@@ -8,8 +8,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.module.model.ReactModuleInfoProvider;
 import com.facebook.react.TurboReactPackage;
 import com.facebook.react.uimanager.ViewManager;
-import com.margelo.nitro.seekbar.SeekbarOnLoad;
-import com.margelo.nitro.seekbar.views.HybridSeekbarManager;
+import com.margelo.nitro.seekbar.*;
+import com.margelo.nitro.seekbar.views.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

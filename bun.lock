@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "react-native-vlc",
+      "name": "react-native-seekbar",
       "devDependencies": {
         "@jamesacarr/eslint-formatter-github-actions": "^0.2.0",
         "@release-it/bumper": "^7.0.1",
