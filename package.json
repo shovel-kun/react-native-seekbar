@@ -1,6 +1,6 @@
 {
   "name": "react-native-seekbar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Nitro module package",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
@@ -39,7 +39,10 @@
   "workspaces": [
     "example"
   ],
-  "repository": "https://github.com/ebisuzawakurumi/react-native-seekbar.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ebisuzawakurumi/react-native-seekbar.git"
+  },
   "author": "Ebisuzawa Kurumi",
   "license": "MIT",
   "bugs": "https://github.com/ebisuzawakurumi/react-native-seekbar/issues",
