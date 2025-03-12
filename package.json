@@ -41,12 +41,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ebisuzawakurumi/react-native-seekbar.git"
+    "url": "git+https://github.com/shovel-kun/react-native-seekbar.git"
   },
   "author": "Ebisuzawa Kurumi",
   "license": "MIT",
-  "bugs": "https://github.com/ebisuzawakurumi/react-native-seekbar/issues",
-  "homepage": "https://github.com/ebisuzawakurumi/react-native-seekbar#readme",
+  "bugs": "https://github.com/shovel-kun/react-native-seekbar/issues",
+  "homepage": "https://github.com/shovel-kun/react-native-seekbar#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
