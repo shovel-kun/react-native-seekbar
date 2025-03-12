@@ -1,6 +1,6 @@
 {
   "name": "react-native-seekbar",
-  "version": "0.1.1",
+  "version": "0.0.1",
   "description": "Nitro module package",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
@@ -48,8 +48,7 @@
   "bugs": "https://github.com/ebisuzawakurumi/react-native-seekbar/issues",
   "homepage": "https://github.com/ebisuzawakurumi/react-native-seekbar#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "provenance": true
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@jamesacarr/eslint-formatter-github-actions": "^0.2.0",
