@@ -2,11 +2,12 @@
 
 ## Requirements
 
-- React Native v0.76.0 or higher
+- React Native v0.78.0 or higher
 - Node 18.0.0 or higher
 
 > [!IMPORTANT]  
-> To Support `Nitro Views` you need to install React Native version v0.78.0 or higher.
+> [Compose Views crash in rn-screens due to a RN bug](https://github.com/react-native-community/discussions-and-proposals/issues/446)
+> To fix, wrap the `Seekbar` component in a `View` component.
 
 ## Installation
 
