@@ -45,9 +45,6 @@ jobs:
           build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
           build-scan-terms-of-use-agree: "yes"
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: 📦 Install Maestro CLI
         id: install-maestro
         run: |
@@ -65,7 +62,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
 
       - name: AVD cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: avd-cache
         with:
           path: |
