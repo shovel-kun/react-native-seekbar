@@ -8,7 +8,7 @@ on:
 jobs:
   test-android:
     if: github.event_name != 'pull_request' || ( github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'android-test-github'))
-    name: Generate Test APK (Gradle)
+    name: e2e-android-test
     runs-on: ubuntu-latest
     env:
       MAESTRO_CLI_ANALYSIS_NOTIFICATION_DISABLED: true
