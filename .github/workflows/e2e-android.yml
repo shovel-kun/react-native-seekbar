@@ -69,16 +69,23 @@ jobs:
           name: test-apk
           path: ./example/android/app/build/outputs/apk/release/app-release.apk
 
+  # https://github.com/ReactiveCircus/android-emulator-runner
   test-android:
     name: Run Android E2E Tests (Maestro + Github Action)
     needs: generate-test-apk
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: 📦 Checkout project repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
       - name: 📦 Install Maestro
         run: npm run install-maestro ## We use npm because we don't need to install deps again
@@ -109,9 +116,6 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
-          cores: 2
-          ram-size: 4096M
-          profile: Nexus 6
           script: echo "Generated AVD snapshot for caching."
 
       - name: Run tests with Maestro
@@ -120,10 +124,7 @@ jobs:
           api-level: 29
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
-          cores: 2
-          ram-size: 4096M
-          profile: Nexus 6
+          disable-animations: true
           script: |
             adb install "${{ github.workspace }}/app-release.apk"
             $HOME/.maestro/bin/maestro test .maestro/ --format junit
