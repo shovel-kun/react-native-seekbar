@@ -40,6 +40,19 @@ jobs:
         run: bun install --frozen-lockfile
         shell: bash
 
+      - name: 📦 Install Maestro
+        id: install-maestro
+        run: |
+          bun run install-maestro
+          echo "maestro-path=$HOME/.maestro/bin/maestro" >> $GITHUB_OUTPUT
+
+      - name: Upload Maestro binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-bin
+          path: $HOME/.maestro/bin/maestro
+          if-no-files-found: error
+
       - name: Set Up JDK
         uses: actions/setup-java@v3
         with:
@@ -68,18 +81,7 @@ jobs:
         with:
           name: test-apk
           path: ./example/android/app/build/outputs/apk/release/app-release.apk
-
-      - name: 📦 Install Maestro
-        id: install-maestro
-        run: |
-          npm run install-maestro
-          echo "maestro-path=$HOME/.maestro/bin/maestro" >> $GITHUB_OUTPUT
-
-      - name: Upload Maestro binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: maestro-bin
-          path: $HOME/.maestro/bin/maestro
+          if-no-files-found: error
 
   # https://github.com/ReactiveCircus/android-emulator-runner
   test-android:
