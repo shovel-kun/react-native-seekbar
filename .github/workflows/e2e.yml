@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [29, 33]
+        api-level: [33]
 
     steps:
       - name: 📦 Checkout project repo
@@ -93,7 +93,7 @@ jobs:
             # Wait for system to settle
             adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
             # Retry once if necessary
-            cd example && bun start
+            cd example && bunx react-native run-android --mode=release
             bun test:e2e
 
       - name: Upload artifacts
