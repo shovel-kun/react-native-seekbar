@@ -154,7 +154,7 @@ jobs:
 
       - name: Build iOS App
         run: |
-          cd example && bunx react-native run-ios --mode Release --simulator \"iPhone 16\" --no-packager
+          cd example && bunx react-native run-ios --mode Release --simulator "iPhone 16" --no-packager
 
       - name: Run tests
         run: |
