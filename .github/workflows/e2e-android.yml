@@ -65,11 +65,13 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      # --build-cache: Use cache (https://docs.gradle.org/current/userguide/build_cache.html)
+      # --scan: Upload build scan (https://scans.gradle.com/)
       - name: Generate Test APK
         run: |
           cd example/android
           chmod +x ./gradlew
-          ./gradlew assembleRelease --no-daemon --build-cache
+          ./gradlew assembleRelease --build-cache --scan
           cd ../..
         shell: bash
         env:
@@ -115,6 +117,9 @@ jobs:
         with:
           name: maestro-bin
           path: ~/.maestro/bin
+
+      - name: Make Maestro binary executable
+        run: chmod +x ~/.maestro/bin/maestro
 
       - name: AVD cache
         uses: actions/cache@v3
