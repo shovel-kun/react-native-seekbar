@@ -69,6 +69,18 @@ jobs:
           name: test-apk
           path: ./example/android/app/build/outputs/apk/release/app-release.apk
 
+      - name: 📦 Install Maestro
+        id: install-maestro
+        run: |
+          npm run install-maestro
+          echo "maestro-path=$HOME/.maestro/bin/maestro" >> $GITHUB_OUTPUT
+
+      - name: Upload Maestro binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-bin
+          path: $HOME/.maestro/bin/maestro
+
   # https://github.com/ReactiveCircus/android-emulator-runner
   test-android:
     name: Run Android E2E Tests (Maestro + Github Action)
@@ -76,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [24, 30, 35]
+        api-level: [24, 31, 35]
 
     steps:
       - name: 📦 Checkout project repo
@@ -90,17 +102,17 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: 📦 Install Maestro
-        run: npm run install-maestro ## We use npm because we don't need to install deps again
-
       - name: Download Test APK
         uses: actions/download-artifact@v4
         with:
           name: test-apk
           path: ${{ github.workspace }}
 
-      # - name: Gradle Cache
-      #   uses: gradle/actions/setup-gradle@v3
+      - name: Download Maestro binary
+        uses: actions/download-artifact@v4
+        with:
+          name: maestro-bin
+          path: $HOME/.maestro/bin
 
       - name: AVD cache
         uses: actions/cache@v3
