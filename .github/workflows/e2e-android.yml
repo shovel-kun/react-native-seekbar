@@ -64,7 +64,7 @@ jobs:
           CI: 'true'
 
       - name: Upload Test APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-apk
           path: ./android/app/build/outputs/apk/release/app-release.apk
