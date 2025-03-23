@@ -1,0 +1,4 @@
+appId: com.seekbarexample
+---
+- launchApp
+- assertVisible: 'Position: 0.00'
