@@ -46,6 +46,12 @@ jobs:
           bun run install-maestro
           echo "maestro-path=$HOME/.maestro/bin/maestro" >> $GITHUB_OUTPUT
 
+      - name: Debug Maestro Installation
+        run: ls -la $HOME/.maestro/bin
+
+      - name: Check Maestro Installation
+        run: test -f $HOME/.maestro/bin/maestro && echo "Maestro installed successfully" || echo "Maestro installation failed"
+
       - name: Upload Maestro binary
         uses: actions/upload-artifact@v4
         with:
