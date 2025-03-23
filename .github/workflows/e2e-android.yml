@@ -67,7 +67,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-apk
-          path: ./android/app/build/outputs/apk/release/app-release.apk
+          path: ./example/android/app/build/outputs/apk/release/app-release.apk
 
   test-android:
     name: Run Android E2E Tests (Maestro + Github Action)
@@ -126,7 +126,7 @@ jobs:
           profile: Nexus 6
           script: |
             adb install "${{ github.workspace }}/app-release.apk"
-            $HOME/.maestro/bin/maestro test .maestro/ --env=APP_ID=com.obytes.staging  --format junit
+            $HOME/.maestro/bin/maestro test .maestro/ --format junit
 
       - name: Upload artifacts
         if: always()
