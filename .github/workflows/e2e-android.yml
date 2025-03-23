@@ -20,7 +20,7 @@ on:
     branches: [main, master]
 
 jobs:
-  generate-test-apk:
+  prepare:
     if: github.event_name != 'pull_request' || ( github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'android-test-github'))
     name: Generate Test APK (Gradle)
     runs-on: ubuntu-latest
@@ -86,11 +86,11 @@ jobs:
   # https://github.com/ReactiveCircus/android-emulator-runner
   test-android:
     name: Run Android E2E Tests (Maestro + Github Action)
-    needs: generate-test-apk
+    needs: prepare
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [24, 31, 35]
+        api-level: [26, 31, 35]
 
     steps:
       - name: 📦 Checkout project repo
@@ -130,6 +130,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
+          arch: x86_64
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
@@ -140,6 +141,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
+          arch: x86_64
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
