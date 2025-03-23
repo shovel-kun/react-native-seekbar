@@ -69,7 +69,7 @@ jobs:
         run: |
           cd example/android
           chmod +x ./gradlew
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease --no-daemon --build-cache
           cd ../..
         shell: bash
         env:
