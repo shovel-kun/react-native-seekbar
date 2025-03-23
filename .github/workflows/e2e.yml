@@ -8,12 +8,14 @@ on:
 jobs:
   test-android:
     if: github.event_name != 'pull_request' || ( github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'android-test-github'))
-    name: Generate Test APK (Gradle)
+    name: e2e-android-test
     runs-on: ubuntu-latest
+    env:
+      MAESTRO_CLI_ANALYSIS_NOTIFICATION_DISABLED: true
     strategy:
       fail-fast: false
       matrix:
-        api-level: [29, 33]
+        api-level: [33]
 
     steps:
       - name: 📦 Checkout project repo
@@ -43,14 +45,13 @@ jobs:
           build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
           build-scan-terms-of-use-agree: "yes"
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: 📦 Install Maestro CLI And Add To Path
+      - name: 📦 Install Maestro CLI
         id: install-maestro
         run: |
           bun run install-maestro
-          echo "maestro-path=$HOME/.maestro/bin/maestro" >> $GITHUB_OUTPUT
+
+      - name: Add Maestro to path
+        run: echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
       # Enable KVM to be able to use hardware accelerated emulators.
       # https://github.com/ReactiveCircus/android-emulator-runner?tab=readme-ov-file#running-hardware-accelerated-emulators-on-linux-runners
@@ -61,7 +62,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
 
       - name: AVD cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: avd-cache
         with:
           path: |
@@ -93,19 +94,82 @@ jobs:
             # Wait for system to settle
             adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
             # Retry once if necessary
-            cd example && bun start
+            cd example && bunx react-native run-android --mode=release
             bun test:e2e
 
       - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: e2e-test-logs
+          name: maestro-artifacts-android
           path: ~/.maestro/tests/**/*
 
       - name: Store tests result
         uses: actions/upload-artifact@v4
         with:
           name: e2e_android_report
+          path: |
+            report.xml
+
+  test-ios:
+    name: e2e-ios-test
+    # Silicon chips run through the iOS tests much faster
+    runs-on: macos-latest
+    env:
+      MAESTRO_DRIVER_STARTUP_TIMEOUT: 300_000 # 5 minutes
+      MAESTRO_CLI_ANALYSIS_NOTIFICATION_DISABLED: true
+    steps:
+      - name: 📦 Checkout project repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: 📦 Install Project Dependencies
+        run: bun install --frozen-lockfile
+        shell: bash
+
+      - uses: actions/cache@v4
+        with:
+          path: example/ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('example/ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install Pods
+        run: cd example && bun run pod
+
+      - name: Install Maestro CLI
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          brew tap facebook/fb
+          brew install facebook/fb/idb-companion
+
+      - name: Add Maestro to path
+        run: echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Build iOS App
+        run: |
+          bunx react-native run-ios --mode=release
+
+      - name: Run tests
+        run: |
+          yarn test:e2e
+        
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-artifacts-ios
+          path: ~/.maestro/tests/**/*
+
+      - name: Store tests result
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e_ios_report
           path: |
             report.xml
