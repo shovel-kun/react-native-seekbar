@@ -90,8 +90,8 @@ jobs:
     name: Run Android E2E Tests (Maestro + Github Action)
     needs: prepare
     runs-on: ubuntu-latest
-    fail-fast: false
     strategy:
+      fail-fast: false
       matrix:
         api-level: [29, 33]
 
