@@ -13,7 +13,8 @@
     "clean": "git clean -dfX",
     "release": "release-it",
     "codegen": "nitro-codegen --logLevel=\"debug\" && bun run build && node post-script.js",
-    "install-maestro": "curl -Ls 'https://get.maestro.mobile.dev' | bash"
+    "install-maestro": "curl -Ls 'https://get.maestro.mobile.dev' | bash",
+    "test:e2e": "maestro test .maestro/ --format JUNIT"
   },
   "keywords": [
     "react-native"
