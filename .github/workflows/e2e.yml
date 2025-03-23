@@ -94,7 +94,7 @@ jobs:
             # Wait for system to settle
             adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
             # Retry once if necessary
-            cd example && bunx react-native run-android --mode=release
+            cd example && bunx react-native run-android --mode=release --no-packager
             bun test:e2e
 
       - name: Upload artifacts
@@ -154,7 +154,7 @@ jobs:
 
       - name: Build iOS App
         run: |
-          bunx react-native run-ios --mode=release
+          bunx react-native run-ios --mode Release --simulator \"iPhone 16\" --no-packager
 
       - name: Run tests
         run: |
