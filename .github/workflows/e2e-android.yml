@@ -69,13 +69,15 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+
+      # --configuraion-cache: Use cache (https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache)
       # --build-cache: Use cache (https://docs.gradle.org/current/userguide/build_cache.html)
       # --scan: Upload build scan (https://scans.gradle.com/)
       - name: Generate Test APK
         run: |
           cd example/android
           chmod +x ./gradlew
-          ./gradlew assembleRelease --no-daemon --build-cache --scan
+          ./gradlew assembleRelease --build-cache --configuration-cache --scan
           cd ../..
         shell: bash
         env:
