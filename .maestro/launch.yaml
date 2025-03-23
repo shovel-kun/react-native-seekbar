@@ -1,4 +1,5 @@
 appId: com.seekbarexample
 ---
 - launchApp
+- takeScreenshot: MainScreen
 - assertVisible: 'Position: 0.00'
