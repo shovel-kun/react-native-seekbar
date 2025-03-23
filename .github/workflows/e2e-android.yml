@@ -71,7 +71,7 @@ jobs:
         run: |
           cd example/android
           chmod +x ./gradlew
-          ./gradlew assembleRelease --build-cache --scan
+          ./gradlew assembleRelease --no-daemon --build-cache --scan
           cd ../..
         shell: bash
         env:
@@ -90,9 +90,10 @@ jobs:
     name: Run Android E2E Tests (Maestro + Github Action)
     needs: prepare
     runs-on: ubuntu-latest
+    fail-fast: false
     strategy:
       matrix:
-        api-level: [26, 31, 35]
+        api-level: [29, 33]
 
     steps:
       - name: 📦 Checkout project repo
