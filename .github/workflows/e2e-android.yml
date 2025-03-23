@@ -47,7 +47,7 @@ jobs:
           java-version: '17'
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -56,7 +56,7 @@ jobs:
         run: |
           cd example/android
           chmod +x ./gradlew
-          ./gradlew assembleRelease --no-daemon
+          ./gradlew assembleRelease
           cd ../..
         shell: bash
         env:
@@ -74,6 +74,9 @@ jobs:
     name: Run Android E2E Tests (Maestro + Github Action)
     needs: generate-test-apk
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        api-level: [24, 30, 35]
 
     steps:
       - name: 📦 Checkout project repo
@@ -96,8 +99,8 @@ jobs:
           name: test-apk
           path: ${{ github.workspace }}
 
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
+      # - name: Gradle Cache
+      #   uses: gradle/actions/setup-gradle@v3
 
       - name: AVD cache
         uses: actions/cache@v3
@@ -112,7 +115,7 @@ jobs:
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: ${{ matrix.api-level }}
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
@@ -122,7 +125,7 @@ jobs:
       - name: Run tests with Maestro
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: ${{ matrix.api-level }}
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
