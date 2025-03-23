@@ -46,11 +46,13 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: 📦 Install Maestro CLI And Add To Path
+      - name: 📦 Install Maestro CLI
         id: install-maestro
         run: |
           bun run install-maestro
-          echo "maestro-path=$HOME/.maestro/bin/maestro" >> $GITHUB_OUTPUT
+
+      - name: Add Maestro to path
+        run: echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
       # Enable KVM to be able to use hardware accelerated emulators.
       # https://github.com/ReactiveCircus/android-emulator-runner?tab=readme-ov-file#running-hardware-accelerated-emulators-on-linux-runners
