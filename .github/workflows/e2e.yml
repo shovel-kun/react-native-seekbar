@@ -95,7 +95,7 @@ jobs:
             adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
             # Retry once if necessary
             cd example && bunx react-native run-android --mode=release
-            bun test:e2e
+            bun run test:e2e
 
       - name: Upload artifacts
         if: always()
@@ -154,11 +154,11 @@ jobs:
 
       - name: Build iOS App
         run: |
-          bunx react-native run-ios --mode=release
+          cd example && bunx react-native run-ios --mode=release
 
       - name: Run tests
         run: |
-          yarn test:e2e
+          bun run test:e2e
         
       - name: Upload artifacts
         if: always()
