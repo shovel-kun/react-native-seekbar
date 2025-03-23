@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "clean": "git clean -dfX",
     "release": "release-it",
-    "codegen": "nitro-codegen --logLevel=\"debug\" && bun run build && node post-script.js"
+    "codegen": "nitro-codegen --logLevel=\"debug\" && bun run build && node post-script.js",
+    "install-maestro": "curl -Ls 'https://get.maestro.mobile.dev' | bash"
   },
   "keywords": [
     "react-native"
