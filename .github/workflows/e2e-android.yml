@@ -40,19 +40,6 @@ jobs:
         run: bun install --frozen-lockfile
         shell: bash
 
-      - name: 📦 Install Maestro
-        id: install-maestro
-        run: |
-          bun run install-maestro
-          echo "maestro-path=$HOME/.maestro/bin/maestro" >> $GITHUB_OUTPUT
-
-      - name: Upload Maestro binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: maestro-bin
-          path: ~/.maestro/bin/maestro
-          if-no-files-found: error
-
       - name: Set Up JDK
         uses: actions/setup-java@v3
         with:
@@ -114,23 +101,11 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-
       - name: Download Test APK
         uses: actions/download-artifact@v4
         with:
           name: test-apk
           path: ${{ github.workspace }}
-
-      - name: Download Maestro binary
-        uses: actions/download-artifact@v4
-        with:
-          name: maestro-bin
-          path: ~/.maestro/bin
-
-      - name: Make Maestro binary executable
-        run: chmod +x ~/.maestro/bin/maestro
 
       - name: AVD cache
         uses: actions/cache@v3
@@ -152,6 +127,12 @@ jobs:
           disable-animations: false
           script: echo "Generated AVD snapshot for caching."
         timeout-minutes: 5
+
+      - name: 📦 Install Maestro
+        id: install-maestro
+        run: |
+          bun run install-maestro
+          echo "maestro-path=$HOME/.maestro/bin/maestro" >> $GITHUB_OUTPUT
 
       - name: Run tests with Maestro
         uses: reactivecircus/android-emulator-runner@v2
