@@ -167,9 +167,9 @@ jobs:
   #         name: maestro-artifacts-ios
   #         path: ~/.maestro/tests/**/*
 
-  #     - name: Store tests result
-  #       uses: actions/upload-artifact@v4
-        with:
-          name: e2e_ios_report
-          path: |
-            report.xml
+      # - name: Store tests result
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: e2e_ios_report
+      #     path: |
+      #       report.xml
