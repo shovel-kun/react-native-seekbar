@@ -12,7 +12,9 @@
     "typecheck": "tsc --noEmit",
     "clean": "git clean -dfX",
     "release": "release-it",
-    "codegen": "nitro-codegen --logLevel=\"debug\" && bun run build && node post-script.js"
+    "codegen": "nitro-codegen --logLevel=\"debug\" && bun run build && node post-script.js",
+    "install-maestro": "curl -Ls 'https://get.maestro.mobile.dev' | bash",
+    "test:e2e": "maestro test .maestro/ --format JUNIT"
   },
   "keywords": [
     "react-native"
@@ -59,7 +61,7 @@
     "nitro-codegen": "^0.25.1",
     "react": "19.0.0",
     "react-native": "0.78.0",
-    "react-native-builder-bob": "^0.37.0",
+    "react-native-builder-bob": "^0.38.0",
     "react-native-nitro-modules": "^0.25.1",
     "release-it": "^18.1.2",
     "typescript": "5.0.4"
