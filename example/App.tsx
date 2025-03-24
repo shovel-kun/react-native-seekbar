@@ -12,9 +12,9 @@ function App(): React.JSX.Element {
   const onValueChange = React.useCallback(
     (value: number) => {
       setPosition(value);
-      if (sliderRef.current) {
-        sliderRef.current.position = value;
-      }
+      // if (sliderRef.current) {
+      //   sliderRef.current.position = value;
+      // }
     },
     [setPosition],
   );
@@ -51,9 +51,9 @@ function App(): React.JSX.Element {
           setIsPlaying(false);
           return prevPosition;
         }
-        if (sliderRef.current) {
-          sliderRef.current.position = position + 0.1; // Increment by 0.1 every 100ms
-        }
+        // if (sliderRef.current) {
+        //   sliderRef.current.position = position + 0.1; // Increment by 0.1 every 100ms
+        // }
         return prevPosition + 0.1; // Increment by 0.1 every 100ms
       });
     }, 100); // Update every 100ms
@@ -65,7 +65,7 @@ function App(): React.JSX.Element {
       <Text>Position: {position.toFixed(2)}</Text>
       <Seekbar
         style={styles.view}
-        // position={position}
+        position={position}
         duration={10}
         readAheadValue={3}
         onValueChange={{
@@ -79,6 +79,9 @@ function App(): React.JSX.Element {
         }}
         seekerColors={{
           thumbColor: 'red',
+          progressColor: 'blue',
+          trackColor: 'yellow',
+          readAheadColor: 'green',
         }}
         segments={segments}
         hybridRef={{
