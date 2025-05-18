@@ -35,7 +35,7 @@ import SwiftUI
 /// ```
 ///
 /// Additionally, the `onEditingChanged` closure allows you to perform various animations or change the state.
-/// 
+///
 /// ```swift
 /// @State private var progress = 0.5
 /// @State private var isEditing = false
@@ -68,6 +68,8 @@ public struct SeekBar: View {
     private let onEditingChanged: (Bool) -> Void
     
     @State private var dragStartOffset: CGFloat = 0
+    // Threshold to distinguish between taps and drags
+    private let tapThreshold: CGFloat = 3
     
     public var body: some View {
         GeometryReader { proxy in
@@ -78,23 +80,53 @@ public struct SeekBar: View {
                 Track(value: value, bufferedValue: bufferedValue, bounds: bounds)
                     .frame(height: trackDimensions.trackHeight)
                     .allowsHitTesting(allowsTrackHitTesting)
-                    .gesture(dragGesture(availableWidth: availableWidth))
+                    .gesture(trackGesture(availableWidth: availableWidth))
                 
                 Handle()
                     .frame(width: handleSize, height: handleSize)
                     .opacity(isDisplayOnlyTrack ? 0 : 1)
                     .offset(x: calculatePosition(for: value, within: bounds, with: availableWidth))
                     .allowsHitTesting(allowsHandleHitTesting)
-                    .gesture(dragGesture(availableWidth: availableWidth))
+                    .gesture(handleGesture(availableWidth: availableWidth))
             }
         }
         .frame(height: seekBarMaxHeight)
     }
     
-    /// Creates a `DragGesture` to handle dragging interactions.
-    ///
-    /// - Parameter availableWidth: The available width for calculating drag positions.
-    private func dragGesture(availableWidth: CGFloat) -> some Gesture {
+    /// Creates a gesture for the track that handles both taps and drags
+    private func trackGesture(availableWidth: CGFloat) -> some Gesture {
+        // Use a simultaneous gesture to handle both taps and drags
+        SimultaneousGesture(
+            TapGesture()
+                .onEnded { _ in
+                    // Tap handling not needed here as we'll handle it in the drag gesture
+                },
+            DragGesture(minimumDistance: 0)
+                .onChanged { dragValue in
+                    let distance = abs(dragValue.startLocation.x - dragValue.location.x)
+                    
+                    if distance <= tapThreshold {
+                        // Treat as tap - immediate seek
+                        onEditingChanged(true)
+                        value = normalizedValue(for: dragValue.location.x, within: bounds, with: availableWidth, step: step)
+                    } else {
+                        // Treat as drag
+                        onEditingChanged(true)
+                        if isActionMoveWithValue {
+                            value = normalizedValue(for: dragValue.location.x, within: bounds, with: availableWidth, step: step)
+                        }
+                        updateValueWithDrag(dragValue: dragValue, availableWidth: availableWidth)
+                    }
+                }
+                .onEnded { _ in
+                    dragStartOffset = 0
+                    onEditingChanged(false)
+                }
+        )
+    }
+    
+    /// Creates a gesture specifically for the handle (drag only)
+    private func handleGesture(availableWidth: CGFloat) -> some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { dragValue in
                 onEditingChanged(true)
