@@ -99,13 +99,13 @@ jobs:
 
       - name: Upload artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: maestro-artifacts-android
           path: ~/.maestro/tests/**/*
 
       - name: Store tests result
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: e2e_android_report
           path: |
@@ -163,13 +163,13 @@ jobs:
         
   #     - name: Upload artifacts
   #       if: always()
-  #       uses: actions/upload-artifact@v4
+  #       uses: actions/upload-artifact@v5
   #       with:
   #         name: maestro-artifacts-ios
   #         path: ~/.maestro/tests/**/*
 
       # - name: Store tests result
-      #   uses: actions/upload-artifact@v4
+      #   uses: actions/upload-artifact@v5
       #   with:
       #     name: e2e_ios_report
       #     path: |
