@@ -62,7 +62,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
 
       - name: AVD cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: avd-cache
         with:
           path: |
@@ -134,7 +134,7 @@ jobs:
   #       run: bun install --frozen-lockfile
   #       shell: bash
 
-  #     - uses: actions/cache@v4
+  #     - uses: actions/cache@v5
   #       with:
   #         path: example/ios/Pods
   #         key: ${{ runner.os }}-pods-${{ hashFiles('example/ios/Podfile.lock') }}
